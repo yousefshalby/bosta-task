@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id            Int                @id @default(autoincrement())
+  title         String
+  author        String
+  ISBN          String             @unique
+  quantity      Int
+  shelfLocation String
+  createdAt     DateTime           @default(now())
+  borrowing     BorrowingProcess[] // because you have quantitiy of books
+}
+
+model Borrowers {
+  id         Int                @id @default(autoincrement())
+  name       String
+  email      String             @unique
+  createdAt  DateTime           @default(now())
+  Borrowings BorrowingProcess[]
+}
+
+model BorrowingProcess {
+  id          Int       @id @default(autoincrement())
+  books       Book[] // Each borrowing process involves multiple books
+  borrower    Borrowers @relation(fields: [borrowersId], references: [id])
+  borrowDate  DateTime  @default(now())
+  duedate     DateTime?
+  borrowersId Int
+  returned    Boolean   @default(false)
+}
