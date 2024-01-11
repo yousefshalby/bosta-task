@@ -18,7 +18,10 @@ model Book {
   quantity      Int
   shelfLocation String
   createdAt     DateTime           @default(now())
-  borrowing     BorrowingProcess[] // because you have quantitiy of books
+  borrowing     BorrowingProcess[]
+
+  @@index([title], name: "idx_title")
+  @@index([author], name: "idx_author")
 }
 
 model Borrowers {
@@ -27,14 +30,16 @@ model Borrowers {
   email      String             @unique
   createdAt  DateTime           @default(now())
   Borrowings BorrowingProcess[]
+
+  @@index([name], name: "idx_name")
 }
 
 model BorrowingProcess {
   id          Int       @id @default(autoincrement())
-  books       Book[] // Each borrowing process involves multiple books
+  books       Book[]
   borrower    Borrowers @relation(fields: [borrowersId], references: [id])
   borrowDate  DateTime  @default(now())
-  duedate     DateTime?
+  dueDate     DateTime?
   borrowersId Int
   returned    Boolean   @default(false)
 }

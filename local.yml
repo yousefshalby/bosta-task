@@ -12,6 +12,8 @@ services:
       - .:/app
     depends_on:
       - postgres
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@postgres:5432/mydatabase
 
   # PostgreSQL service
   postgres:

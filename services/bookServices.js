@@ -1,4 +1,3 @@
-// services/bookService.js
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -44,7 +43,7 @@ const getAllBooks = async (req) => {
       return books;
     } catch (error) {
       console.error('Error getting books:', error);
-      throw error; // Rethrow the error to handle it at a higher level if needed
+      throw error;
     } finally {
       await prisma.$disconnect();
     }

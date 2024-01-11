@@ -18,7 +18,7 @@ const getBorrowers = async () => {
 };
 
 // Service function to update a borrower by ID
-const updateBorrower = async (borrowerId, { name, email,  }) => {
+const updateBorrower = async (borrowerId, { name, email }) => {
   return await prisma.borrowers.update({
     where: { id: borrowerId },
     data: {
